@@ -25,13 +25,6 @@ app.post('/signup', (req, res) => {
         res.status(400).send(err)
 
     }
-
-    // if (grpc.main(req.body.email, req.body.password, req.body.en_name)) {
-    //     res.status(200).send('CREATED')
-    // } else {
-    //     res.status(400).send('err')
-    // }
-
 })
 
 app.listen(port, () => {console.log(`Example app listening at http://${hostname}:${port}`)})
