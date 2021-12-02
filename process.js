@@ -15,15 +15,11 @@ app.use(express.urlencoded({ extended: true }))
 // CLIENT ENDPOINT
 app.post('/signup', (req, res) => {
     try{
-        console.log('1')
         grpc.main(req.body.email, req.body.password, req.body.en_name)
-        console.log('2')
         res.status(200).send('CREATED')
-        console.log('3')
     }catch(err){
         console.log('catch err', err);
         res.status(400).send(err)
-
     }
 })
 
