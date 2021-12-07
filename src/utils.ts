@@ -4,8 +4,14 @@ import { secret_key } from "./config";
 
 
 export const verifyToken = (req: Request) => {
-    const token: any = req.headers.authorization
-    const uuid: any = jwt.verify(token, secret_key)
-
-    return uuid.uuid
+    return new Promise((resolve, reject) => {
+        const token: any = req.headers.authorization;
+        if (!token) {
+            reject ("NOT_LOGGED_IN")
+        } else {
+            const uuid = jwt.verify(token, secret_key)
+            resolve (uuid)
+        }
+        }
+    )
 }

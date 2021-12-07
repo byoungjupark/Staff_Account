@@ -36,7 +36,8 @@ export const getLogin = async (req: Request, res: Response) => {
 
 export const updatePassword = async (req: Request, res: Response) => {
     try{
-        await grpc.updatePassword(verifyToken(req), req.body)
+        const uuid: any = await verifyToken(req)
+        await grpc.updatePassword(uuid.uuid, req.body)
         return res.status(200).json({'message': 'UPDATED'})
     }catch(err){
         return res.status(400).json({'message': err})

@@ -83,19 +83,23 @@ var getLogin = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
 }); };
 exports.getLogin = getLogin;
 var updatePassword = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var err_3;
+    var uuid, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, grpc.updatePassword((0, utils_1.verifyToken)(req), req.body)];
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, (0, utils_1.verifyToken)(req)];
             case 1:
+                uuid = _a.sent();
+                console.log(uuid);
+                return [4 /*yield*/, grpc.updatePassword(uuid.uuid, req.body)];
+            case 2:
                 _a.sent();
                 return [2 /*return*/, res.status(200).json({ 'message': 'UPDATED' })];
-            case 2:
+            case 3:
                 err_3 = _a.sent();
                 return [2 /*return*/, res.status(400).json({ 'message': err_3 })];
-            case 3: return [2 /*return*/];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
