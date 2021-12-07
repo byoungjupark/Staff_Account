@@ -38,10 +38,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.updatePassword = exports.getLogin = exports.postSignup = void 0;
 var jwt = require("jsonwebtoken");
-var dotenv = require("dotenv");
 var grpc = require("./grpc");
-dotenv.config();
-var secret_key = process.env.SECRET_KEY;
+var config_1 = require("./config");
+var utils_1 = require("./utils");
 var postSignup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var err_1;
     return __generator(this, function (_a) {
@@ -69,7 +68,7 @@ var getLogin = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                 return [4 /*yield*/, grpc.login(req.body)];
             case 1:
                 response = _a.sent();
-                token = jwt.sign({ uuid: response }, secret_key, {
+                token = jwt.sign({ uuid: response }, config_1.secret_key, {
                     subject: 'loginToken',
                     // expiresIn: '60m',
                     issuer: 'maum-staff'
@@ -84,14 +83,12 @@ var getLogin = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
 }); };
 exports.getLogin = getLogin;
 var updatePassword = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var token, uuid, err_3;
+    var err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                token = req.headers.authorization;
-                uuid = jwt.verify(token, secret_key);
-                return [4 /*yield*/, grpc.updatePassword(uuid.uuid, req.body)];
+                return [4 /*yield*/, grpc.updatePassword((0, utils_1.verifyToken)(req), req.body)];
             case 1:
                 _a.sent();
                 return [2 /*return*/, res.status(200).json({ 'message': 'UPDATED' })];

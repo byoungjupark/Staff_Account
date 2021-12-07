@@ -1,11 +1,6 @@
-import * as dotenv from 'dotenv';
-
 import app from './app';
-
-dotenv.config();
-const hostname = process.env.CLIENT_HOSTNAME;
-const port = process.env.CLIENT_PORT;
+import { client_hostname, client_port } from './config';
 
 
-app.listen(port, () => {console.log(`app is running ${hostname}:${port}`)})
+app.listen(client_port, () => {console.log(`app is running ${client_hostname}:${client_port}`)})
 

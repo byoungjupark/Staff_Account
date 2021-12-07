@@ -1,12 +1,9 @@
 import * as jwt from 'jsonwebtoken'
-import * as dotenv from "dotenv";
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
 import * as grpc from './grpc'
-
-
-dotenv.config();
-const secret_key: any = process.env.SECRET_KEY;
+import { secret_key } from './config'
+import { verifyToken } from './utils'
 
 
 export const postSignup = async (req: Request, res: Response) => {
@@ -39,10 +36,7 @@ export const getLogin = async (req: Request, res: Response) => {
 
 export const updatePassword = async (req: Request, res: Response) => {
     try{
-        const token: any = req.headers.authorization
-        const uuid: any = jwt.verify(token, secret_key)
-
-        await grpc.updatePassword(uuid.uuid, req.body)
+        await grpc.updatePassword(verifyToken(req), req.body)
         return res.status(200).json({'message': 'UPDATED'})
     }catch(err){
         return res.status(400).json({'message': err})

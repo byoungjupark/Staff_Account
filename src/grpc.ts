@@ -1,6 +1,6 @@
-import * as dotenv from 'dotenv';
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
+import { grpc_hostname, grpc_port } from './config';
 
 const PROTO_PATH = 'src/staff.proto';
 const packageDefinition = protoLoader.loadSync(
@@ -13,12 +13,8 @@ const packageDefinition = protoLoader.loadSync(
     });
 const staff_proto = grpc.loadPackageDefinition(packageDefinition).v1;
 
-dotenv.config();
-const hostname = process.env.GRPC_HOSTNAME;
-const port = process.env.GRPC_PORT;
-
 // @ts-ignore
-const client = new staff_proto.StaffService(`${hostname}:${port}`, grpc.credentials.createInsecure());
+const client = new staff_proto.StaffService(`${grpc_hostname}:${grpc_port}`, grpc.credentials.createInsecure());
 
 
 // Type

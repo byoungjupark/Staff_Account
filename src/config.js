@@ -1,0 +1,10 @@
+"use strict";
+exports.__esModule = true;
+exports.grpc_port = exports.grpc_hostname = exports.client_port = exports.client_hostname = exports.secret_key = void 0;
+var dotenv = require("dotenv");
+dotenv.config();
+exports.secret_key = process.env.SECRET_KEY;
+exports.client_hostname = process.env.CLIENT_HOSTNAME;
+exports.client_port = process.env.CLIENT_PORT;
+exports.grpc_hostname = process.env.GRPC_HOSTNAME;
+exports.grpc_port = process.env.GRPC_PORT;
