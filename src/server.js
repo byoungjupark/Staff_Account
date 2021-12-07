@@ -1,10 +1,8 @@
-import app from './app.js';
-import dotenv from 'dotenv';
-
+"use strict";
+exports.__esModule = true;
+var dotenv = require("dotenv");
+var app_1 = require("./app");
 dotenv.config();
-const hostname = process.env.HOSTNAME;
-const port = process.env.PORT;
-
-
-app.listen(port, () => {console.log(`app is running ${hostname}:${port}`)})
-
+var hostname = process.env.CLIENT_HOSTNAME;
+var port = process.env.CLIENT_PORT;
+app_1["default"].listen(port, function () { console.log("app is running ".concat(hostname, ":").concat(port)); });

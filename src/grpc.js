@@ -1,64 +1,59 @@
-const PROTO_PATH = 'src/staff.proto';
-
-import * as grpc from '@grpc/grpc-js';
-import * as protoLoader from '@grpc/proto-loader';
-
-const packageDefinition = protoLoader.loadSync(
-    PROTO_PATH,
-    {keepCase: true,
-     longs: String,
-     enums: String,
-     defaults: true,
-     oneofs: true
+"use strict";
+exports.__esModule = true;
+exports.updatePassword = exports.login = exports.signup = void 0;
+var dotenv = require("dotenv");
+var grpc = require("@grpc/grpc-js");
+var protoLoader = require("@grpc/proto-loader");
+var PROTO_PATH = 'src/staff.proto';
+var packageDefinition = protoLoader.loadSync(PROTO_PATH, { keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true
+});
+var staff_proto = grpc.loadPackageDefinition(packageDefinition).v1;
+dotenv.config();
+var hostname = process.env.GRPC_HOSTNAME;
+var port = process.env.GRPC_PORT;
+// @ts-ignore
+var client = new staff_proto.StaffService("".concat(hostname, ":").concat(port), grpc.credentials.createInsecure());
+// Request to grpc server
+var signup = function signup(staff) {
+    return new Promise(function (resolve, reject) {
+        client.CreateStaff({ 'email': staff.email, 'password': staff.password, 'en_name': staff.en_name }, function (err) {
+            if (err) {
+                reject(err.details);
+            }
+            else {
+                resolve("");
+            }
+        });
     });
-const staff_proto = grpc.loadPackageDefinition(packageDefinition).v1;
-const client = new staff_proto.StaffService('localhost:50051', grpc.credentials.createInsecure());
-
-
-export const signup = function signup(email, password, en_name) {
-    return new Promise((resolve, reject) => {
-        client.CreateStaff(
-            {'email':email, 'password':password, 'en_name':en_name},
-            (err) => {
-                if (err) {
-                    reject (err.details)
-                } else {
-                    resolve ("")
-                }
+};
+exports.signup = signup;
+var login = function login(req) {
+    return new Promise(function (resolve, reject) {
+        client.Login({ 'email': req.email, 'password': req.password }, function (err, response) {
+            if (err) {
+                reject(err.details);
             }
-        )
-    })
-}
-
-
-export const login = function login(email, password) {
-    return new Promise((resolve, reject) => {
-        client.Login(
-            {'email':email, 'password':password},
-
-            (err, response) => {
-                if (err) {
-                    reject (err.details)
-                } else {
-                    resolve (response.uuid)
-                }
+            else {
+                resolve(response.uuid);
             }
-        )
-    })
-}
-
-
-export const updatePassword = function updatePassword(uuid, origin_password, update_password, check_password) {
-    return new Promise((resolve, reject) => {
-        client.UpdatePassword(
-            {'uuid': uuid, 'origin_password': origin_password, 'update_password': update_password, 'check_password': check_password},
-            (err) => {
-                if (err) {
-                    reject (err.details)
-                } else {
-                    resolve ("")
-                }
+        });
+    });
+};
+exports.login = login;
+var updatePassword = function updatePassword(uuid, req) {
+    return new Promise(function (resolve, reject) {
+        client.UpdatePassword({ 'uuid': uuid, 'origin_password': req.origin_password, 'update_password': req.update_password, 'check_password': req.check_password }, function (err) {
+            if (err) {
+                reject(err.details);
             }
-        )
-    })
-}
+            else {
+                resolve("");
+            }
+        });
+    });
+};
+exports.updatePassword = updatePassword;
