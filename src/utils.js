@@ -11,8 +11,6 @@ var verifyToken = function (req) {
         }
         else {
             var uuid = jwt.verify(token, config_1.secret_key);
-            console.log("1");
-            console.log(uuid);
             resolve(uuid);
         }
     });

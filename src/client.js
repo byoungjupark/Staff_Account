@@ -91,7 +91,6 @@ var updatePassword = function (req, res) { return __awaiter(void 0, void 0, void
                 return [4 /*yield*/, (0, utils_1.verifyToken)(req)];
             case 1:
                 uuid = _a.sent();
-                console.log(uuid);
                 return [4 /*yield*/, grpc.updatePassword(uuid.uuid, req.body)];
             case 2:
                 _a.sent();
